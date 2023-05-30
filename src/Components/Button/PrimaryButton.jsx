@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {PropTypes }from 'react';
 
 const PrimaryButton = ({children, classes, handler}) => {
     return (

@@ -1,37 +1,38 @@
-import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import PrimaryButton from '../Button/PrimaryButton';
-import { Link } from 'react-router-dom';
-
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../Context/AuthProvier';
+import './Navbar.css'
 const Navbar = () => {
-    const {user, logout} = useContext(AuthContext)
-    console.log(user);
+    const {user} = useContext(AuthContext)
     const [isDropdownOpen, setIsDropDownOpen] = useState(false)
-    console.log(isDropdownOpen);
-    const navigate = useNavigate()
+    const navigate = useNavigate() ;
+    const handleSignOut = () =>{
 
-    //logout 
-    const handleSignOut = ()=>{
-        logout()
-        .then(()=>{
-            toast.success('Logout successfull')
-            navigate('/login')
-        })
-        .cath(err =>{
-            toast.error(err.message)
-        })
     }
-
     return (
-        <header className='text-gray-900 shadow-sm'>
-            <div className='mx-auto flex flex-wrap py-5 px-20 flex-col md:flex-row items-center'>
+       
+    <header className='text-gray-900 shadow-md'>
+            <div className=' flex flex-wrap py-5 px-3 md:px-20 flex-row md:flex-row items-center justify-between sm:px-0'>
                 <Link to="/" className=''>
-                    <span className='ml-3 text-2xl font-medium items-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-lime-500 mb-4 md:mb-0'>Aircnc</span>
+                    <span className='ml-3 text-2xl font-medium items-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-lime-500 mb-4 md:mb-0'>SM<span className='text-xl'>todo</span></span>
                 </Link>
                 <nav className='md:ml-auto flex flex-wrap items-center text-base justify-center'>
+                    {
+                        user?.email && <div className='mr-3 w-96   hidden md:block'>
+                        <ul className=' ul-menu-list'>
+                            <li><Link to='/add-task'>Add task</Link></li>
+                            <li><Link to='/my-task'>My Task</Link></li>
+                            <li><Link to='/completed-task'>Completed Task</Link></li>
+                            <li><button className='bg-cyan-500 px-3 py-2 rounded-md  text-white' >Logout</button></li>
+                        </ul>
+                    </div>
+                    }
+
                 {
                     user?.email || user?.displayName? (
                         <>
-                        <div className='relative inline-block'>
+                        <div className='relative inline-block md:hidden'>
                             <button onClick={()=>setIsDropDownOpen(!isDropdownOpen)} 
                             className="relative z-10 block p-2 text-gray-700 bg-green-50 border-transparent rounded-md focus:border-blue-500 focus:ring-blue-300 focus:outline-none">
                             <svg
@@ -45,8 +46,7 @@ const Navbar = () => {
                             </button>
                             {isDropdownOpen && (
                                 <div className='absolute right-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl'>
-                                            <Link onClick={()=> setIsDropDownOpen
-                                            (!isDropdownOpen)} to="/dashboard" className='flex items-center px-3 py-3 text-sm text-gray-700 capitalize transition-colors duration-200 transform hover:bg-gray-100'>
+                                            <Link onClick={()=> setIsDropDownOpen(!isDropdownOpen)} to="/add-task" className='flex items-center px-3 py-3 text-sm text-gray-700 capitalize transition-colors duration-200 transform hover:bg-gray-100'>
                                                 <svg
                                                     className='w-5 h-5 mx-1'
                                                     viewBox='0 0 24 24'
@@ -62,7 +62,47 @@ const Navbar = () => {
                                                         fill='currentColor'
                                                     ></path>
                                                 </svg>
-                                                <span className='mx-1'>Dashboard</span>
+                                                <Link to='/add-task'>Add task</Link>
+                                            </Link>
+                                            <hr className='border-gray-200' />
+
+                                            <Link onClick={()=> setIsDropDownOpen(!isDropdownOpen)} to="/my-task" className='flex items-center px-3 py-3 text-sm text-gray-700 capitalize transition-colors duration-200 transform hover:bg-gray-100'>
+                                                <svg
+                                                    className='w-5 h-5 mx-1'
+                                                    viewBox='0 0 24 24'
+                                                    fill='none'
+                                                    xmlns='http://www.w3.org/2000/svg'
+                                                >
+                                                    <path
+                                                        d='M7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8ZM12 11C13.6569 11 15 9.65685 15 8C15 6.34315 13.6569 5 12 5C10.3431 5 9 6.34315 9 8C9 9.65685 10.3431 11 12 11Z'
+                                                        fill='currentColor'
+                                                    ></path>
+                                                    <path
+                                                        d='M6.34315 16.3431C4.84285 17.8434 4 19.8783 4 22H6C6 20.4087 6.63214 18.8826 7.75736 17.7574C8.88258 16.6321 10.4087 16 12 16C13.5913 16 15.1174 16.6321 16.2426 17.7574C17.3679 18.8826 18 20.4087 18 22H20C20 19.8783 19.1571 17.8434 17.6569 16.3431C16.1566 14.8429 14.1217 14 12 14C9.87827 14 7.84344 14.8429 6.34315 16.3431Z'
+                                                        fill='currentColor'
+                                                    ></path>
+                                                </svg>
+                                                <span >Add task</span>
+                                            </Link>
+                                            <hr className='border-gray-200' />
+
+                                            <Link onClick={()=> setIsDropDownOpen(!isDropdownOpen)} to="/my-task" className='flex items-center px-3 py-3 text-sm text-gray-700 capitalize transition-colors duration-200 transform hover:bg-gray-100'>
+                                                <svg
+                                                    className='w-5 h-5 mx-1'
+                                                    viewBox='0 0 24 24'
+                                                    fill='none'
+                                                    xmlns='http://www.w3.org/2000/svg'
+                                                >
+                                                    <path
+                                                        d='M7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8ZM12 11C13.6569 11 15 9.65685 15 8C15 6.34315 13.6569 5 12 5C10.3431 5 9 6.34315 9 8C9 9.65685 10.3431 11 12 11Z'
+                                                        fill='currentColor'
+                                                    ></path>
+                                                    <path
+                                                        d='M6.34315 16.3431C4.84285 17.8434 4 19.8783 4 22H6C6 20.4087 6.63214 18.8826 7.75736 17.7574C8.88258 16.6321 10.4087 16 12 16C13.5913 16 15.1174 16.6321 16.2426 17.7574C17.3679 18.8826 18 20.4087 18 22H20C20 19.8783 19.1571 17.8434 17.6569 16.3431C16.1566 14.8429 14.1217 14 12 14C9.87827 14 7.84344 14.8429 6.34315 16.3431Z'
+                                                        fill='currentColor'
+                                                    ></path>
+                                                </svg>
+                                                <span >My task</span>
                                             </Link>
                                             <hr className='border-gray-200' />
 
@@ -81,7 +121,7 @@ const Navbar = () => {
                                                         fill='currentColor'
                                                     ></path>
                                                 </svg>
-                                                <span className='mx-1'>Sign Out</span>
+                                                <span>Logout</span>
                                             </div>
 
                                 </div>
@@ -95,7 +135,7 @@ const Navbar = () => {
                             Login
                         </Link>
                         <Link to="/signup" className='mr-5'>
-                            <PrimaryButton  classes="rounded-full px-2 py-1">
+                            <PrimaryButton classes="rounded-full px-2 py-1">
                                 signup
                             </PrimaryButton>
                         </Link>
@@ -107,6 +147,7 @@ const Navbar = () => {
                 </nav>
             </div>
         </header>
+
     );
 };
 

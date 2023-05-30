@@ -1,0 +1,9 @@
+.ul-menu-list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ul-menu-list li:hover {
+    color: blue;
+    transition: .2s ease-in;
+}
